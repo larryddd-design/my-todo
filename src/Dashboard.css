@@ -1,0 +1,86 @@
+.page-layout {
+  display: flex;
+}
+
+.main-content {
+  margin-left: 260px;
+  padding: 20px;
+  width: 100%;
+}
+
+.header h1 {
+  font-size: 28px;
+}
+
+.input-bar {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.input-bar input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.input-bar button {
+  background: #6a5acd;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+.search {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.task-card {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-left {
+  display: flex;
+  gap: 10px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-actions button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.task-actions .danger {
+  background: #ff4d4d;
+  color: white;
+}
+
+.footer {
+  text-align: center;
+  color: #777;
+  margin: 40px 0 10px;
+}
+
+/* Responsive layout */
+@media (max-width: 850px) {
+  .main-content {
+    margin-left: 0;
+  }
+}

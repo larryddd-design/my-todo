@@ -1,0 +1,37 @@
+.calendar-card {
+  margin-top: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.calendar-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-day {
+  padding: 6px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  text-align: center;
+  font-size: 14px;
+}
+
+.calendar-day.done {
+  background: #6a5acd;
+  color: white;
+}
+
+.mark-btn {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  background: #6a5acd;
+  color: white;
+  border: none;
+}
