@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_BASE = "https://my-todo-gj8m.onrender.com";
+
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +27,7 @@ export default function LoginForm() {
     }
 
     try {
-      const send = await fetch("http://localhost:5000/api/login", {
+      const send = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -35,23 +37,21 @@ export default function LoginForm() {
 
       if (!send.ok) {
         setError(true);
-        setMessage(data.error || data.message || "Login failed");
+        setMessage(data.message || data.error || "Login failed");
       } else {
         setError(false);
         setMessage(data.message || "Login successful!");
-        // Save token and redirect
+
         if (data.token) {
           localStorage.setItem("token", data.token);
           localStorage.setItem("userEmail", data.email || "");
-          setTimeout(() => navigate("/dashboard"), 300);
-        } else {
-          // fallback
-          setTimeout(() => navigate("/dashboard"), 300);
         }
+
+        setTimeout(() => navigate("/dashboard"), 300);
       }
     } catch (err) {
       setError(true);
-      setMessage("An Error Occurred");
+      setMessage("An error occurred");
     } finally {
       setLoading(false);
     }
@@ -63,9 +63,9 @@ export default function LoginForm() {
         <h2>Login</h2>
 
         <div className="login-group">
-          <label>Email or Username</label>
+          <label>Email</label>
           <input
-            type="text"
+            type="email"
             placeholder="your@email.com"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -88,9 +88,7 @@ export default function LoginForm() {
           />
         </div>
 
-        {message ? (
-          <p style={{ color: error ? "red" : "green" }}>{message}</p>
-        ) : null}
+        {message && <p style={{ color: error ? "red" : "green" }}>{message}</p>}
 
         <button type="submit" className="login-btn" disabled={loading}>
           {loading ? "Logging in..." : "Login"}

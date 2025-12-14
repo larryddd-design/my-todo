@@ -1,3 +1,4 @@
+// src/Dashboard.jsx
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import EditModal from "./EditModal";
 import CalendarWidget from "./CalendarWidget";
+
+const API_BASE = "https://my-todo-gj8m.onrender.com";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -25,17 +28,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!token) navigate("/login");
-    loadTasks();
+    else loadTasks();
   }, []);
 
   async function loadTasks() {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
         headers: authHeaders(),
       });
       const data = await res.json();
       setTasks(data.tasks || []);
+    } catch (err) {
+      console.error("Error loading tasks:", err);
     } finally {
       setLoading(false);
     }
@@ -44,26 +49,32 @@ export default function Dashboard() {
   async function handleAddTask() {
     if (!input.trim()) return;
 
-    const res = await fetch("http://localhost:5000/api/tasks", {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({ text: input }),
-    });
-
-    const data = await res.json();
-    setTasks((prev) => [data.task, ...prev]);
-    setInput("");
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks`, {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({ text: input }),
+      });
+      const data = await res.json();
+      setTasks((prev) => [data.task, ...prev]);
+      setInput("");
+    } catch (err) {
+      console.error("Error adding task:", err);
+    }
   }
 
   async function toggleComplete(task) {
-    const res = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
-      method: "PUT",
-      headers: authHeaders(),
-      body: JSON.stringify({ completed: !task.completed }),
-    });
-
-    const data = await res.json();
-    setTasks((prev) => prev.map((t) => (t._id === task._id ? data.task : t)));
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks/${task._id}`, {
+        method: "PUT",
+        headers: authHeaders(),
+        body: JSON.stringify({ completed: !task.completed }),
+      });
+      const data = await res.json();
+      setTasks((prev) => prev.map((t) => (t._id === task._id ? data.task : t)));
+    } catch (err) {
+      console.error("Error toggling task:", err);
+    }
   }
 
   function openEditModal(task) {
@@ -72,32 +83,34 @@ export default function Dashboard() {
   }
 
   async function saveEdit(newText) {
-    const res = await fetch(
-      `http://localhost:5000/api/tasks/${modalTask._id}`,
-      {
+    try {
+      const res = await fetch(`${API_BASE}/api/tasks/${modalTask._id}`, {
         method: "PUT",
         headers: authHeaders(),
         body: JSON.stringify({ text: newText }),
-      }
-    );
-
-    const data = await res.json();
-    setTasks((prev) =>
-      prev.map((t) => (t._id === modalTask._id ? data.task : t))
-    );
-
-    setModalVisible(false);
+      });
+      const data = await res.json();
+      setTasks((prev) =>
+        prev.map((t) => (t._id === modalTask._id ? data.task : t))
+      );
+      setModalVisible(false);
+    } catch (err) {
+      console.error("Error editing task:", err);
+    }
   }
 
   async function deleteTask(id) {
     if (!window.confirm("Delete this task?")) return;
 
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
-      method: "DELETE",
-      headers: authHeaders(),
-    });
-
-    setTasks((prev) => prev.filter((t) => t._id !== id));
+    try {
+      await fetch(`${API_BASE}/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: authHeaders(),
+      });
+      setTasks((prev) => prev.filter((t) => t._id !== id));
+    } catch (err) {
+      console.error("Error deleting task:", err);
+    }
   }
 
   const filtered = tasks.filter((t) =>

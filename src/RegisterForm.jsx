@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_BASE = "https://my-todo-gj8m.onrender.com";
+
 export default function RegisterForm() {
   const navigate = useNavigate();
 
-  // Form data
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,7 +16,6 @@ export default function RegisterForm() {
 
   const [message, setMessage] = useState("");
 
-  // Input handler
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,18 +23,16 @@ export default function RegisterForm() {
     });
   };
 
-  // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple client-side password check
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/register", {
+      const res = await fetch(`${API_BASE}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -50,7 +48,6 @@ export default function RegisterForm() {
         return;
       }
 
-      // Success
       setMessage("Registration successful! Redirecting...");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
