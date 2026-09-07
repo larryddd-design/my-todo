@@ -1,4 +1,4 @@
-// RegisterForm.jsx
+// src/RegisterForm.jsx
 import React, { useState } from "react";
 import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,19 +15,20 @@ export default function RegisterForm() {
   });
 
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setIsError(false);
 
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
+      setIsError(true);
       return;
     }
 
@@ -41,10 +42,22 @@ export default function RegisterForm() {
         }),
       });
 
-      const data = await res.json();
+      // ✅ FIX: Safely parse JSON
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseErr) {
+        setMessage(
+          "Server is waking up. Please wait 30 seconds and try again.",
+        );
+        setIsError(true);
+        return;
+      }
 
       if (!res.ok) {
         setMessage(data.message || "Registration failed");
+        setIsError(true);
         return;
       }
 
@@ -52,7 +65,8 @@ export default function RegisterForm() {
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       console.error(err);
-      setMessage("Something went wrong");
+      setMessage("Network error. Check your internet or backend.");
+      setIsError(true);
     }
   };
 
@@ -97,7 +111,14 @@ export default function RegisterForm() {
           />
         </div>
 
-        {message && <p className="error-message">{message}</p>}
+        {message && (
+          <p
+            className="error-message"
+            style={{ color: isError ? "red" : "green" }}
+          >
+            {message}
+          </p>
+        )}
 
         <button type="submit" className="submit-btn">
           Register

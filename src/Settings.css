@@ -1,0 +1,50 @@
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.settings-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.settings-card h3 { margin: 0 0 16px; font-size: 18px; color: #1a202c; }
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 15px;
+}
+.settings-row:last-child { border-bottom: none; }
+
+.settings-label { color: #718096; }
+.settings-value { color: #2d3748; font-weight: 600; word-break: break-all; text-align: right; }
+
+.settings-desc { color: #718096; font-size: 14px; margin: 0 0 16px; }
+
+.settings-buttons { display: flex; flex-direction: column; gap: 10px; }
+
+.settings-btn {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+.settings-btn:hover { background: #f7fafc; }
+
+.settings-btn.warning:hover { background: #fffaf0; border-color: #fbd38d; color: #975a16; }
+.settings-btn.danger { color: #c53030; border-color: #fed7d7; }
+.settings-btn.danger:hover { background: #fff5f5; border-color: #feb2b2; }

@@ -1,0 +1,90 @@
+/* Add form with priority + date */
+.add-form {
+  display: flex;
+  gap: 12px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.add-form .task-input { flex: 2; min-width: 200px; }
+
+.date-input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 15px;
+  color: #4a5568;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.date-input:focus {
+  border-color: #6a5acd;
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.15);
+}
+
+/* Tabs row */
+.tabs-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #718096;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tab-btn:hover { background: #f7fafc; color: #2d3748; }
+.tab-btn.active { background: #6a5acd; color: #ffffff; }
+
+/* Task meta (badges + due date) */
+.task-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.task-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  letter-spacing: 0.5px;
+}
+.badge.low { background: #e6fffa; color: #0987a0; }
+.badge.medium { background: #fefcbf; color: #975a16; }
+.badge.high { background: #fed7d7; color: #c53030; }
+
+.due-date { font-size: 13px; color: #718096; }
+.due-date.overdue { color: #c53030; font-weight: 700; }
+
+.task-card.is-overdue { border-color: #feb2b2; }
+
+@media (max-width: 650px) {
+  .add-form { flex-direction: column; }
+  .add-form .add-btn { width: 100%; }
+  .tabs-row { flex-direction: column; align-items: stretch; }
+  .tabs-row .select-control { width: 100%; }
+}

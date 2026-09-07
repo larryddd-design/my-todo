@@ -33,7 +33,19 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await send.json();
+      // ✅ FIX: Safely parse JSON (prevents crashes if Render returns HTML)
+      const text = await send.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseErr) {
+        setError(true);
+        setMessage(
+          "Server is waking up or returned an invalid response. Please try again in 30 seconds.",
+        );
+        setLoading(false);
+        return;
+      }
 
       if (!send.ok) {
         setError(true);
@@ -50,8 +62,9 @@ export default function LoginForm() {
         setTimeout(() => navigate("/dashboard"), 300);
       }
     } catch (err) {
+      console.error(err);
       setError(true);
-      setMessage("An error occurred");
+      setMessage("Network error. Check your internet or backend.");
     } finally {
       setLoading(false);
     }

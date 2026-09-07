@@ -1,56 +1,143 @@
+/* =========================================
+   SIDEBAR LAYOUT
+   ========================================= */
 .sidebar {
-  position: fixed;
-  width: 240px;
-  height: 100vh;
+  width: 260px;
   background: #ffffff;
-  border-right: 1px solid #eee;
-  padding: 20px;
-  transition: 0.3s ease;
+  border-right: 1px solid #e2e8f0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-header {
+  padding: 28px 24px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 30px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-.sidebar nav a {
-  display: block;
-  padding: 12px 0;
-  font-size: 16px;
-  color: #333;
+.logo-icon {
+  font-size: 24px;
+}
+
+/* =========================================
+   NAVIGATION LINKS
+   ========================================= */
+.sidebar-nav {
+  flex: 1;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: #4a5568;
   text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s ease;
 }
 
-.sidebar nav a.active {
-  font-weight: bold;
-  color: #6a5acd;
+.nav-link:hover {
+  background: #f7fafc;
+  color: #2d3748;
 }
 
+.nav-link.active {
+  background: #6a5acd;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(106, 90, 205, 0.25);
+}
+
+.nav-link.active svg {
+  color: white;
+  stroke: white;
+}
+
+.nav-link svg {
+  flex-shrink: 0;
+  color: #718096;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover svg {
+  color: #4a5568;
+}
+
+/* =========================================
+   SIDEBAR FOOTER
+   ========================================= */
 .sidebar-footer {
-  position: absolute;
-  bottom: 20px;
-  color: #777;
-  font-size: 14px;
+  padding: 20px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* Mobile sidebar */
-.mobile-menu-btn {
-  display: none;
-  font-size: 26px;
-  padding: 8px;
+.logout-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: #e53e3e;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  background: none;
+  border: none;
   cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
 }
 
+.logout-link:hover {
+  background: #fee2e2;
+  color: #c53030;
+}
+
+.copyright {
+  font-size: 12px;
+  color: #a0aec0;
+  margin: 0;
+  text-align: center;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
+/* 
+  Note: The actual slide-in animation for mobile is triggered 
+  by the `.sidebar-open` class added to `.page-layout` in Dashboard.css.
+  We just define the default hidden state for mobile here.
+*/
 @media (max-width: 850px) {
   .sidebar {
-    left: -260px;
-  }
-  .sidebar.open {
-    left: 0;
-  }
-  .mobile-menu-btn {
-    display: block;
-    margin: 10px;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
   }
 }

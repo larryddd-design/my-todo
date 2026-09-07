@@ -8,32 +8,29 @@ import {
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Dashboard from "./Dashboard";
+import MyTasks from "./MyTasks";
+import Settings from "./Settings";
+import ReminderManager from "./ReminderManager";
 
-// Small helper
 const getToken = () => localStorage.getItem("token");
 
-// Protected route wrapper
 function ProtectedRoute({ children }) {
   const token = getToken();
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
+  if (!token) return <Navigate to="/login" replace />;
+  return (
+    <>
+      <ReminderManager />
+      {children}
+    </>
+  );
 }
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Login */}
         <Route path="/login" element={<LoginForm />} />
-
-        {/* Register */}
         <Route path="/register" element={<RegisterForm />} />
-
-        {/* Dashboard (Protected) */}
         <Route
           path="/dashboard"
           element={
@@ -42,9 +39,23 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Default: redirect to /login */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <MyTasks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>
   );
